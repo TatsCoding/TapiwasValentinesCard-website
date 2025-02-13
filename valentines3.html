@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Valentine's Message</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: white;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+        }
+
+        .envelope {
+            position: relative;
+            width: 100%;
+            height: 65%;
+            background-color: #FC8EAC; /* Flamingo Pink */
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            cursor: pointer;
+            animation: bounce 1.5s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .flap {
+            position: absolute;
+            width: 100%;
+            height: 50%;
+            background-color: #FFB6C1; /* Lighter Flamingo Pink for contrast */
+            top: 0;
+            left: 0;
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+            transform-origin: top center;
+            transition: transform 0.5s ease-in-out;
+            z-index: 3;
+        }
+
+        .card {
+            position: absolute;
+            background-color: pink;
+            width: 85%;
+            height: 55%;
+            bottom: -100%;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: -5px -5px 20px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Brush Script MT', cursive;
+            font-size: 28px;
+            text-align: center;
+            transition: bottom 0.5s ease-in-out;
+            z-index: 2;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .yes-button, .no-button {
+            background-color: white;
+            border: 2px solid white;
+            color: #FC8EAC; /* Flamingo Pink text */
+            height: 50px;
+            width: 100px;
+            cursor: pointer;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .yes-button:hover, .no-button:hover {
+            background-color: #FFD1DC; /* Light pink hover effect */
+        }
+
+        /* Opened state */
+        .envelope.open .flap {
+            transform: rotateX(180deg);
+        }
+
+        .envelope.open .card {
+            bottom: 10%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="envelope" onclick="toggleEnvelope()">
+            <div class="flap"></div>
+            <div class="card">
+                <p>💌TAPIWA NDLOVU💌<br>Will You Be My Valentine?</p>
+                <div class="buttons">
+                    <button class="yes-button" onclick="redirectToThankYou()">YES</button>
+                    <button class="no-button" onclick="redirectToTryAgain()">NO</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let envelopeOpen = false;
+
+        function toggleEnvelope() {
+            let envelope = document.querySelector('.envelope');
+            envelope.classList.toggle('open');
+            envelopeOpen = !envelopeOpen;
+        }
+
+        function redirectToThankYou() {
+            window.location.href = "thankyou2.html";
+        }
+
+        function redirectToTryAgain() {
+            window.location.href = "tryagain2.html";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Try Again</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: white;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+        }
+
+        .envelope {
+            position: relative;
+            width: 100%;
+            height: 65%;
+            background-color: #e57373;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            cursor: pointer;
+        }
+
+        .flap {
+            position: absolute;
+            width: 100%;
+            height: 50%;
+            background-color: #f8ad9d;
+            top: 0;
+            left: 0;
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+            transform-origin: top center;
+            transition: transform 0.5s ease-in-out;
+            z-index: 3;
+        }
+
+        .card {
+            position: absolute;
+            background-color: pink;
+            width: 85%;
+            height: 55%;
+            bottom: -100%;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: -5px -5px 20px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Brush Script MT', cursive;
+            font-size: 28px;
+            text-align: center;
+            transition: bottom 0.5s ease-in-out;
+            z-index: 2;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+        }
+
+        .yes-button {
+            background-color: white;
+            border: 2px solid white;
+            color: #EE82EE;
+            height: 50px;
+            width: 100px;
+            cursor: pointer;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .yes-button:hover {
+            background-color: #AA98A9;
+        }
+
+        /* Opened state */
+        .envelope.open .flap {
+            transform: rotateX(180deg);
+        }
+
+        .envelope.open .card {
+            bottom: 10%;
+        }
+
+        /* Floating hearts */
+        .hearts-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            background-color: red;
+            width: 20px;
+            height: 20px;
+            transform: rotate(-45deg);
+            opacity: 0;
+        }
+
+        .heart:before, .heart:after {
+            content: "";
+            background-color: red;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            position: absolute;
+        }
+
+        .heart:before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart:after {
+            top: 0;
+            left: 10px;
+        }
+
+        @keyframes heartFly {
+            0% {
+                transform: translateY(0) rotate(-45deg) scale(0.3);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-300px) rotate(-45deg) scale(1.3);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="envelope" onclick="toggleEnvelope()">
+            <div class="flap"></div>
+            <div class="card">
+                <p>Will you please please be my Valentine? 🥺❤️</p>
+                <div class="buttons">
+                    <button class="yes-button" onclick="redirectToThankYou()">YES</button>
+                </div>
+            </div>
+        </div>
+        <div class="hearts-container"></div>
+    </div>
+
+    <script>
+        let envelopeOpen = false;
+        let heartInterval;
+
+        function toggleEnvelope() {
+            let envelope = document.querySelector('.envelope');
+            envelope.classList.toggle('open');
+            envelopeOpen = !envelopeOpen;
+
+            if (envelopeOpen) {
+                startFloatingHearts();
+            } else {
+                stopFloatingHearts();
+            }
+        }
+
+        function createHeart() {
+            if (!envelopeOpen) return;
+
+            let heart = document.createElement('div');
+            heart.classList.add('heart');
+            let heartsContainer = document.querySelector('.hearts-container');
+
+            let startPositionX = Math.random() * 100 - 50; // Random position within container
+            heart.style.left = `calc(50% + ${startPositionX}px)`;
+            heart.style.bottom = "0px";
+
+            let duration = Math.random() * 2 + 1; // Random animation duration
+            heart.style.animation = `heartFly ${duration}s linear forwards`;
+
+            heartsContainer.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, duration * 1000);
+        }
+
+        function startFloatingHearts() {
+            heartInterval = setInterval(createHeart, 300);
+        }
+
+        function stopFloatingHearts() {
+            clearInterval(heartInterval);
+            document.querySelector('.hearts-container').innerHTML = "";
+        }
+
+        function redirectToThankYou() {
+            window.location.href = "thankyou2.html"; // Redirects to thank you page
+        }
+    </script>
+</body>
+</html>
